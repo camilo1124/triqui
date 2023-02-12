@@ -42,46 +42,40 @@ def desactivacion_botones():
 
 def victoria(signo):
     
-    global ganador  
-
     #Revision para las X's
 
     for i in range(3):
         for j in range(2):
             if tablero[(i*3)+0]["text"] == signo and tablero[(i*3)+1]["text"] == signo and tablero[(i*3)+2]["text"] == signo:
-                for k in range(3):
-                    tablero[(i*3)+k].config(bg="green")
-                    ganador = True
-                    messagebox.showinfo("Triqui", (signo + " gana"))
-                    desactivacion_botones()
-                    return True
+                   return True
             if tablero[i]["text"] == signo and tablero[(i+3)]["text"] == signo and tablero[(i+6)]["text"] == signo:
-                    for k in range(i,9,3):
-                    tablero[k].config(bg="green")
-                    ganador = True
-                    messagebox.showinfo("Triqui", (signo + " gana"))
-                    desactivacion_botones()
                     return True
     if tablero[0]["text"] == signo and tablero[4]["text"] == signo andtablero[8]["text"] == signo:
-        tablero[0].config(bg="green")
-        tablero[4].config(bg="green")
-        tablero[8].config(bg="green")
-        ganador = True
-        messagebox.showinfo("Triqui", (signo + " gana"))
-        desactivacion_botones()
-        return True
+       return True
     if tablero[2]["text"] == signo and tablero[4]["text"] == signo andtablero[6]["text"] == signo:
-        tablero[2].config(bg="green")
-        tablero[4].config(bg="green")
-        tablero[6].config(bg="green")
-        ganador = True
-        messagebox.showinfo("Triqui", (signo + " gana"))
-        desactivacion_botones()
-        return True
+       return True
 
     return False
 
+def lista_vacio():
+    global tablero
+    lista = []
+    for boton in tablero:
+        lista.append(boton["text"] == " ")
+
+    return lista
+
+def minimax(tablero,maximizador,minimizador):
+    caso = victoria(maximizador,minimizador)
+
+    if caso:
+        return 1
+    else:
+        return -1
+
+
 #Estimulo? percepcion? generada por el ambiente
+
 
 def b_click(boton):
     global clicked, contador
@@ -90,6 +84,7 @@ def b_click(boton):
         if jugador_1 == "ambiente": 
             boton["text"] = signo_j1
             contador += 1
+            tablero.marcar_casillas(
         if victoria(signo_j1) == False:
             eleccion_agente = programa_agente(contador)
             contador += 1
@@ -101,7 +96,6 @@ def b_click(boton):
 
 def reset_botones():
 
-    global boton_1,boton_2,boton_3,boton_4,boton_5,boton_6,boton_7,boton_8,boton_9
     global clicked, contador
     clicked = True
     contador = 0
